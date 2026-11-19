@@ -1,0 +1,14 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-settings" data-page-title="Settings">
+    <div class="page-heading"><div><span class="eyebrow">MAKE IT WORK FOR YOU</span><h1>Settings</h1><p>Choose how TaskFlow looks and how it keeps you in the loop.</p></div></div>
+    <div class="settings-layout">
+        <article class="panel settings-panel"><div class="panel-heading"><div><h2>Appearance</h2><p>Set the look and feel of your workspace.</p></div><span class="settings-icon"><i class="fa-solid fa-palette"></i></span></div><label for="settingsTheme">Color theme</label><select id="settingsTheme"><option value="default">Indigo</option><option value="dark">Midnight</option><option value="ocean">Ocean</option><option value="forest">Forest</option><option value="sunset">Sunset</option><option value="purple">Violet</option></select><div class="setting-row"><span><b>Dark mode</b><small>Use a darker workspace palette.</small></span><label class="switch"><input id="darkModeToggle" type="checkbox"><span class="switch-slider"></span><span class="sr-only">Enable dark mode</span></label></div></article>
+        <article class="panel settings-panel"><div class="panel-heading"><div><h2>Notifications</h2><p>Choose which updates you'd like to see.</p></div><span class="settings-icon settings-icon-cyan"><i class="fa-regular fa-bell"></i></span></div><div class="setting-row"><span><b>Task reminders</b><small>Get a heads-up about upcoming due dates.</small></span><label class="switch"><input id="remindersToggle" type="checkbox"><span class="switch-slider"></span><span class="sr-only">Enable task reminders</span></label></div><div class="setting-row"><span><b>Productivity updates</b><small>See helpful summaries of your progress.</small></span><label class="switch"><input id="updatesToggle" type="checkbox"><span class="switch-slider"></span><span class="sr-only">Enable productivity updates</span></label></div><p class="settings-note"><i class="fa-solid fa-circle-info"></i> Preferences are saved in this browser only.</p></article>
+        <article class="panel settings-panel account-settings"><div class="panel-heading"><div><h2>Account</h2><p>Manage your TaskFlow account.</p></div><span class="settings-icon settings-icon-violet"><i class="fa-regular fa-user"></i></span></div><div class="account-setting-row"><span><b>Task storage</b><small>Your tasks are saved to your authenticated MongoDB workspace.</small></span><span class="readiness-tag">Connected</span></div><div class="account-setting-row"><span><b>Signed in as</b><small><%= user.email %></small></span><span class="readiness-tag">Authenticated</span></div></article>
+    </div>
+</section>
+</main></div></div>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

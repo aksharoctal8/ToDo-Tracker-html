@@ -1,0 +1,17 @@
+<div class="task-card-list" id="taskList" aria-live="polite">
+    <% if (tasks.length) { %>
+        <% tasks.forEach(function(task) { const statusLabel = task.status === "progress" ? "In progress" : task.status[0].toUpperCase() + task.status.slice(1); %>
+            <article class="task-card" data-task-id="<%= task.id %>">
+                <div class="task-card-primary">
+                    <form action="/tasks/<%= task.id %>/status" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><input type="hidden" name="status" value="<%= task.status === "completed" ? "pending" : "completed" %>"><button class="task-check <%= task.status === 'completed' ? 'is-complete' : '' %>" type="submit" aria-label="<%= task.status === 'completed' ? 'Reopen' : 'Mark complete' %> <%= task.title %>" aria-pressed="<%= task.status === 'completed' %>"><% if (task.status === "completed") { %><i class="fa-solid fa-check"></i><% } %></button></form>
+                    <div class="task-card-copy"><h3><a href="/tasks/<%= task.id %>"><%= task.title %></a></h3><% if (task.description) { %><p><%= task.description %></p><% } %>
+                        <div class="task-card-meta"><span class="<%= task.overdue ? 'is-overdue' : '' %>"><i class="fa-regular fa-calendar"></i><%= task.dueDate || "No due date" %></span><% if (task.projectName) { %><span><i class="fa-regular fa-folder"></i><%= task.projectName %></span><% } %><% if (task.category) { %><span><i class="fa-solid fa-tag"></i><%= task.category %></span><% } %><% if (task.assignTo) { %><span><i class="fa-regular fa-user"></i><%= task.assignTo %></span><% } %><% task.tags.forEach(function(tag) { %><span><i class="fa-solid fa-hashtag"></i><%= tag %></span><% }); %></div>
+                    </div>
+                </div>
+                <div class="task-card-side"><span class="status-badge <%= task.overdue ? 'status-overdue' : `status-${task.status}` %>"><%= task.overdue ? "Overdue" : statusLabel %></span><span class="priority-badge priority-<%= task.priority %>"><%= task.priority %> priority</span><div class="task-card-actions"><button class="icon-button" type="button" data-action="edit-task" data-task-id="<%= task.id %>" aria-label="Edit <%= task.title %>"><i class="fa-solid fa-pen"></i></button><form action="/tasks/<%= task.id %>/delete" method="post" data-confirm-delete="<%= task.title %>"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><button class="icon-button" type="submit" aria-label="Delete <%= task.title %>"><i class="fa-regular fa-trash-can"></i></button></form></div></div>
+            </article>
+        <% }); %>
+    <% } else { %>
+        <div class="task-empty-state"><i class="fa-solid fa-list-check"></i><h3><%= pagination && pagination.total ? "No tasks match these filters" : "Nothing on your list yet" %></h3><p><%= pagination && pagination.total ? "Try changing your filters or search terms." : "Add your first task to get the day moving." %></p><% if (!pagination || !pagination.total) { %><button class="button button-primary button-small" type="button" data-action="add-task"><i class="fa-solid fa-plus"></i> Add a task</button><% } %></div>
+    <% } %>
+</div>

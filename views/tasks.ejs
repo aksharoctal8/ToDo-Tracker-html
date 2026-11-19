@@ -1,0 +1,30 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-tasks" data-page-title="My Tasks">
+    <div class="page-heading"><div><span class="eyebrow">YOUR WORK, IN ONE PLACE</span><h1>My tasks</h1><p>Plan your next step and keep the important things moving.</p></div><button class="button button-primary" type="button" data-action="add-task"><i class="fa-solid fa-plus"></i> Add task</button></div>
+    <% if (successMessage) { %><p class="profile-success" role="status"><%= successMessage %></p><% } %>
+    <form class="panel task-toolbar" action="/tasks" method="get">
+        <label class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input id="taskSearch" name="search" type="search" value="<%= filters.search %>" placeholder="Search tasks..." aria-label="Search tasks"></label>
+        <label class="filter-control"><span class="sr-only">Filter by status</span><select id="statusFilter" name="status"><option value="">All statuses</option><option value="pending" <%= filters.status === "pending" ? "selected" : "" %>>Pending</option><option value="progress" <%= filters.status === "progress" ? "selected" : "" %>>In progress</option><option value="completed" <%= filters.status === "completed" ? "selected" : "" %>>Completed</option><option value="cancelled" <%= filters.status === "cancelled" ? "selected" : "" %>>Cancelled</option></select></label>
+        <label class="filter-control"><span class="sr-only">Filter by priority</span><select id="priorityFilter" name="priority"><option value="">All priorities</option><option value="critical" <%= filters.priority === "critical" ? "selected" : "" %>>Critical</option><option value="high" <%= filters.priority === "high" ? "selected" : "" %>>High priority</option><option value="medium" <%= filters.priority === "medium" ? "selected" : "" %>>Medium priority</option><option value="low" <%= filters.priority === "low" ? "selected" : "" %>>Low priority</option></select></label>
+        <label class="filter-control"><span class="sr-only">Filter by category</span><select id="categoryFilter" name="category"><option value="">All categories</option><% categories.forEach(function(category) { %><option value="<%= category %>" <%= filters.category === category ? "selected" : "" %>><%= category %></option><% }); %></select></label>
+        <label class="filter-control"><span class="sr-only">Filter by project</span><select name="projectId"><option value="">All projects</option><% projects.forEach(function(project) { const projectId = project.id || String(project._id); %><option value="<%= projectId %>" <%= filters.projectId === projectId ? "selected" : "" %>><%= project.name %></option><% }); %></select></label>
+        <label class="filter-control"><span class="sr-only">Filter by due date</span><select id="dueFilter" name="due"><option value="">Any due date</option><option value="today" <%= filters.due === "today" ? "selected" : "" %>>Due today</option><option value="week" <%= filters.due === "week" ? "selected" : "" %>>Due this week</option><option value="overdue" <%= filters.due === "overdue" ? "selected" : "" %>>Overdue</option><option value="none" <%= filters.due === "none" ? "selected" : "" %>>No due date</option></select></label>
+        <label class="filter-control"><span class="sr-only">Sort tasks</span><select name="sort"><option value="updatedAt" <%= filters.sort === "updatedAt" ? "selected" : "" %>>Recently updated</option><option value="createdAt" <%= filters.sort === "createdAt" ? "selected" : "" %>>Date created</option><option value="dueDate" <%= filters.sort === "dueDate" ? "selected" : "" %>>Due date</option><option value="priority" <%= filters.sort === "priority" ? "selected" : "" %>>Priority</option><option value="title" <%= filters.sort === "title" ? "selected" : "" %>>Title</option></select></label>
+        <label class="filter-control"><span class="sr-only">Sort direction</span><select name="direction"><option value="desc" <%= filters.direction === "desc" ? "selected" : "" %>>Descending</option><option value="asc" <%= filters.direction === "asc" ? "selected" : "" %>>Ascending</option></select></label>
+        <button class="button button-primary button-small" type="submit">Apply</button><a class="button button-quiet button-small" href="/tasks">Clear</a>
+    </form>
+    <div class="task-list-toolbar"><span id="taskResultsLabel"><%= pagination.total %> <%= pagination.total === 1 ? "task" : "tasks" %></span><span>Page <%= pagination.page %> of <%= pagination.pages %></span></div>
+    <%- include("partials/task-list", { tasks }) %>
+    <% if (pagination.pages > 1) { %>
+        <nav class="task-pagination" aria-label="Task pages">
+            <% if (pagination.page > 1) { %><a class="button button-outline button-small" href="/tasks?<%= new URLSearchParams({ search: filters.search, status: filters.status, priority: filters.priority, category: filters.category, projectId: filters.projectId || "", due: filters.due, sort: filters.sort, direction: filters.direction, page: String(pagination.page - 1) }) %>">Previous</a><% } %>
+            <span>Page <%= pagination.page %> of <%= pagination.pages %></span>
+            <% if (pagination.page < pagination.pages) { %><a class="button button-outline button-small" href="/tasks?<%= new URLSearchParams({ search: filters.search, status: filters.status, priority: filters.priority, category: filters.category, projectId: filters.projectId || "", due: filters.due, sort: filters.sort, direction: filters.direction, page: String(pagination.page + 1) }) %>">Next</a><% } %>
+        </nav>
+    <% } %>
+</section>
+</main></div></div>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

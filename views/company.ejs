@@ -1,0 +1,79 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-company" data-page-title="Company dashboard">
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">COMPANY WORKSPACE</span>
+            <h1><%= company ? company.name : "Company workspace" %></h1>
+            <p>Team coordination, task visibility, and project progress in one place.</p>
+        </div>
+        <a class="button button-primary" href="/teams"><i class="fa-solid fa-user-plus"></i> Create team</a>
+    </div>
+
+    <% if (!company) { %>
+        <div class="empty-state card-box">
+            <i class="fa-solid fa-building"></i>
+            <h3>No company created yet</h3>
+            <p>Initialize your company workspace to manage teams and assign tasks.</p>
+            <a class="button button-primary" href="/company/register">Register company</a>
+        </div>
+    <% } else { %>
+        <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon stat-icon-indigo"><i class="fa-solid fa-users"></i></span><span class="stat-label">Total teams</span><strong><%= stats.totalTeams %></strong><small class="stat-foot">Across this company</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-blue"><i class="fa-solid fa-user-group"></i></span><span class="stat-label">Members</span><strong><%= stats.totalMembers %></strong><small class="stat-foot">Company-wide users</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-green"><i class="fa-solid fa-list-check"></i></span><span class="stat-label">Total tasks</span><strong><%= stats.totalTasks %></strong><small class="stat-foot">Across all teams</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-amber"><i class="fa-regular fa-clock"></i></span><span class="stat-label">Pending</span><strong><%= stats.pendingTasks %></strong><small class="stat-foot">Tasks awaiting action</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-blue"><i class="fa-solid fa-spinner"></i></span><span class="stat-label">In progress</span><strong><%= stats.inProgressTasks %></strong><small class="stat-foot">Currently moving</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-green"><i class="fa-solid fa-circle-check"></i></span><span class="stat-label">Completed</span><strong><%= stats.completedTasks %></strong><small class="stat-foot">Delivered work</small></article>
+            <article class="stat-card"><span class="stat-icon stat-icon-rose"><i class="fa-solid fa-triangle-exclamation"></i></span><span class="stat-label">Overdue</span><strong><%= stats.overdueTasks %></strong><small class="stat-foot">Need attention</small></article>
+        </div>
+
+        <div class="dashboard-grid company-grid">
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Company profile</h2>
+                        <p>Basic organizational information</p>
+                    </div>
+                </div>
+                <div class="company-profile">
+                    <div class="company-profile-header">
+                        <span class="company-avatar"><%= company.name.slice(0,2).toUpperCase() %></span>
+                        <div>
+                            <b><%= company.name %></b>
+                            <small><%= company.email %></small>
+                        </div>
+                    </div>
+                    <p><%= company.description || "No company description added yet." %></p>
+                    <dl>
+                        <div><dt>Phone</dt><dd><%= company.phone || "Not set" %></dd></div>
+                        <div><dt>Website</dt><dd><%= company.website || "Not set" %></dd></div>
+                        <div><dt>Address</dt><dd><%= company.address || "Not set" %></dd></div>
+                    </dl>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Teams</h2>
+                        <p>Company teams and team leaders</p>
+                    </div>
+                    <a class="text-button" href="/teams">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="list-stack">
+                    <% teams.forEach(function(team) { %>
+                        <a class="list-row" href="/teams/<%= team._id %>">
+                            <div>
+                                <b><%= team.name %></b>
+                                <small><%= team.leader ? team.leader.name : "Unassigned" %></small>
+                            </div>
+                            <span class="status-badge status-active"><%= team.status %></span>
+                        </a>
+                    <% }); %>
+                </div>
+            </article>
+        </div>
+    <% } %>
+</section>
+<%- include("partials/footer") %>

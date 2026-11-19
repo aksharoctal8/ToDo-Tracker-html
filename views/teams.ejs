@@ -1,0 +1,70 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-teams" data-page-title="Teams">
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">TEAM MANAGEMENT</span>
+            <h1>Company teams</h1>
+            <p>Organize your workforce into focused teams for better ownership and accountability.</p>
+        </div>
+        <button class="button button-primary" type="button" data-action="toggle-team-form"><i class="fa-solid fa-plus"></i> New team</button>
+    </div>
+
+    <% if (submissionError) { %>
+        <div class="error-banner"><i class="fa-solid fa-circle-exclamation"></i> <%= submissionError %></div>
+    <% } %>
+
+    <% if (successMessage) { %>
+        <div class="success-banner"><i class="fa-solid fa-circle-check"></i> <%= successMessage %></div>
+    <% } %>
+
+    <div class="panel hidden" id="teamFormPanel">
+        <div class="panel-heading">
+            <div>
+                <h2>Create a new team</h2>
+                <p>Set up teams for different departments or workstreams.</p>
+            </div>
+        </div>
+        <form class="stack-form" method="post" action="/teams">
+            <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+            <div class="form-grid">
+                <label class="field field-wide"><span>Team name</span><input type="text" name="name" placeholder="Development Team" required></label>
+                <label class="field field-wide"><span>Description</span><textarea name="description" rows="3" placeholder="Describe team responsibilities and goals."></textarea></label>
+            </div>
+            <div class="button-row">
+                <button class="button button-primary" type="submit">Create team</button>
+                <button class="button button-quiet" type="button" data-action="toggle-team-form">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-grid">
+        <% if (!teams || !teams.length) { %>
+            <div class="empty-state card-box">
+                <i class="fa-solid fa-users"></i>
+                <h3>No teams yet</h3>
+                <p>Start by creating your first team for this company.</p>
+            </div>
+        <% } else { %>
+            <% teams.forEach(function(team) { %>
+                <article class="task-card">
+                    <div class="task-card-head">
+                        <div>
+                            <span class="eyebrow small">Team</span>
+                            <h3><%= team.name %></h3>
+                        </div>
+                        <span class="status-badge status-active"><%= team.status %></span>
+                    </div>
+                    <p><%= team.description || "No description provided." %></p>
+                    <div class="meta-row compact">
+                        <span><i class="fa-solid fa-user-tie"></i> Leader: <%= team.leaderName || "Unassigned" %></span>
+                    </div>
+                    <div class="button-row compact-row">
+                        <a class="button button-outline" href="/teams/<%= team._id %>">Open team</a>
+                    </div>
+                </article>
+            <% }); %>
+        <% } %>
+    </div>
+</section>
+<%- include("partials/footer") %>

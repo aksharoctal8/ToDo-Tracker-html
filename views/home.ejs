@@ -1,0 +1,83 @@
+<%- include("partials/header") %>
+<div class="public-site">
+    <%- include("partials/navbar") %>
+    <main>
+        <section class="hero-section" id="home">
+            <div class="hero-copy">
+                <span class="eyebrow"><span class="eyebrow-dot"></span> A calmer way to get things done</span>
+                <h1>Make space for<br><span>great work.</span></h1>
+                <p>Bring your tasks, projects, and team into one thoughtful workspace. Plan clearly, stay focused, and move work forward together.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary button-large" href="/dashboard">Explore the workspace <i class="fa-solid fa-arrow-right"></i></a>
+                    <a class="button button-outline button-large" href="#features">See how it works</a>
+                </div>
+                <div class="hero-note"><i class="fa-solid fa-circle-check"></i> Simple to start. Built to grow.</div>
+            </div>
+            <div class="hero-art" aria-label="TaskFlow dashboard preview">
+                <div class="hero-window">
+                    <div class="window-topbar"><span></span><span></span><span></span><b>My workspace</b><i class="fa-solid fa-ellipsis"></i></div>
+                    <div class="window-body">
+                        <div class="preview-sidebar"><span class="mini-logo"><i class="fa-solid fa-check"></i></span><i class="fa-solid fa-house active"></i><i class="fa-solid fa-list-check"></i><i class="fa-solid fa-folder"></i><i class="fa-solid fa-chart-simple"></i></div>
+                        <div class="preview-main">
+                            <div class="preview-greeting">Good morning, <%= user.name.split(" ")[0] %> <i class="fa-solid fa-sun" aria-hidden="true"></i></div>
+                            <small>Here's what's happening with your work today.</small>
+                            <div class="preview-metrics"><div><small>Tasks completed</small><strong><%= stats.completed %> <em>This week</em></strong></div><div><small>In progress</small><strong><%= stats.inProgress %></strong></div></div>
+                            <div class="preview-label">Today's focus <a href="/tasks">View all</a></div>
+                            <% tasks.slice(0, 3).forEach(function(task) { %>
+                                <div class="preview-task"><i class="fa-regular <%= task.status === 'completed' ? 'fa-circle-check checked' : 'fa-circle' %>"></i><span><b><%= task.title %></b><small><%= task.category || "Personal" %> - <%= task.dueDate ? task.dueDate : "No due date" %></small></span><i class="fa-solid fa-ellipsis"></i></div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-note"><span class="note-check"><i class="fa-solid fa-check"></i></span><span><b>You're on track</b><small><%= stats.completed %> tasks completed</small></span></div>
+            </div>
+        </section>
+
+        <section class="trust-strip" aria-label="TaskFlow benefits"><span>ONE CLEAR PLACE FOR</span><b><i class="fa-solid fa-list-check"></i> Tasks</b><b><i class="fa-solid fa-people-group"></i> Teams</b><b><i class="fa-solid fa-chart-line"></i> Progress</b><b><i class="fa-solid fa-bullseye"></i> Goals</b></section>
+
+        <section class="public-section section-muted" id="features">
+            <div class="section-heading"><span class="eyebrow">Everything in sync</span><h2>Less busywork.<br><span>More meaningful progress.</span></h2><p>TaskFlow gives your day a little more structure and your team a lot more clarity.</p></div>
+            <div class="feature-grid">
+                <article class="feature-card"><span class="feature-icon icon-indigo"><i class="fa-solid fa-list-check"></i></span><h3>Tasks that make sense</h3><p>Capture details, set priorities, and keep every next step easy to find.</p></article>
+                <article class="feature-card"><span class="feature-icon icon-cyan"><i class="fa-solid fa-people-group"></i></span><h3>Teamwork, together</h3><p>Give work an owner, keep your team aligned, and make handoffs feel effortless.</p></article>
+                <article class="feature-card"><span class="feature-icon icon-violet"><i class="fa-solid fa-chart-line"></i></span><h3>Progress you can see</h3><p>Understand what's moving, what's finished, and where the team can focus next.</p></article>
+                <article class="feature-card"><span class="feature-icon icon-amber"><i class="fa-solid fa-bell"></i></span><h3>Helpful reminders</h3><p>Keep important deadlines and updates in view without adding noise to your day.</p></article>
+                <article class="feature-card"><span class="feature-icon icon-green"><i class="fa-solid fa-wand-magic-sparkles"></i></span><h3>Your workspace, your way</h3><p>Choose a comfortable theme and make the experience feel like yours.</p></article>
+                <article class="feature-card"><span class="feature-icon icon-rose"><i class="fa-solid fa-mobile-screen-button"></i></span><h3>Work from anywhere</h3><p>A responsive workspace that stays comfortable on desktop, tablet, and mobile.</p></article>
+            </div>
+        </section>
+
+        <section class="public-section solutions-section" id="services">
+            <div class="section-heading"><span class="eyebrow">One workspace, many ways to work</span><h2>Make every project<br><span>feel more manageable.</span></h2><p>Keep planning, execution, and progress connected from the first idea to the final checkmark.</p></div>
+            <div class="solution-grid">
+                <article class="solution-card"><span><i class="fa-solid fa-diagram-project"></i></span><div><h3>Project planning</h3><p>Give goals, owners, and due dates a shared home.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-regular fa-calendar"></i></span><div><h3>Deadline management</h3><p>See what's due next and keep priorities in perspective.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-solid fa-chart-pie"></i></span><div><h3>Progress reporting</h3><p>Turn day-to-day work into an overview you can act on.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-solid fa-people-arrows-left-right"></i></span><div><h3>Team coordination</h3><p>Make responsibilities and handoffs easier to understand.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-solid fa-stopwatch"></i></span><div><h3>Time tracking</h3><p>Keep estimated effort and task duration close to the work.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-solid fa-calendar-days"></i></span><div><h3>Schedule planning</h3><p>Plan around due dates and keep upcoming work in view.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-solid fa-gears"></i></span><div><h3>Workflow automation</h3><p>Leave room to connect repeatable steps as your workspace grows.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+                <article class="solution-card"><span><i class="fa-regular fa-circle-question"></i></span><div><h3>Helpful support</h3><p>Find a clear path to guidance when your team needs it.</p></div><i class="fa-solid fa-arrow-up-right-from-square"></i></article>
+            </div>
+        </section>
+
+        <section class="public-section section-muted" id="themes">
+            <div class="section-heading"><span class="eyebrow">A workspace that feels right</span><h2>Find your kind<br><span>of focus.</span></h2><p>Choose a considered color palette for a more comfortable place to work.</p></div>
+            <div class="theme-gallery" aria-label="Choose a theme">
+                <% [{key:"default",name:"Indigo",description:"Clean and focused",swatch:"default"},{key:"dark",name:"Midnight",description:"Easy on the eyes",swatch:"dark"},{key:"ocean",name:"Ocean",description:"Cool and considered",swatch:"ocean"},{key:"forest",name:"Forest",description:"Grounded and calm",swatch:"forest"},{key:"sunset",name:"Sunset",description:"Warm and bright",swatch:"sunset"},{key:"purple",name:"Violet",description:"A little different",swatch:"purple"}].forEach(function(theme) { %>
+                    <button class="theme-card <%= theme.key === 'default' ? 'active' : '' %>" type="button" data-action="set-theme" data-theme-value="<%= theme.key %>"><span class="theme-swatch swatch-<%= theme.swatch %>"></span><b><%= theme.name %></b><small><%= theme.description %></small></button>
+                <% }); %>
+            </div>
+            <div class="theme-customizer"><div><span class="customizer-mark"><i class="fa-solid fa-palette"></i></span><span><b>Make it your own</b><small>Pick an accent color for your workspace.</small></span></div><label class="color-control" for="accentColor"><span>Accent color</span><input type="color" id="accentColor" value="#4f46e5" aria-label="Custom accent color"></label><button class="button button-outline button-small" type="button" data-action="save-custom-theme">Use this color</button></div>
+        </section>
+
+        <section class="public-cta"><div><span class="eyebrow eyebrow-light">A better workday starts here</span><h2>Ready to find your flow?</h2><p>Take a look around your new workspace. No setup required.</p></div><a class="button button-light button-large" href="/dashboard">Explore TaskFlow <i class="fa-solid fa-arrow-right"></i></a></section>
+
+        <section class="public-section contact-section" id="contact">
+            <div class="contact-copy"><span class="eyebrow">Say hello</span><h2>Have a question?<br><span>We'd love to hear.</span></h2><p>Send a note to the TaskFlow team. This contact form is a frontend demo and does not send messages.</p><a href="mailto:hello@taskflow.example"><i class="fa-regular fa-envelope"></i> hello@taskflow.example</a></div>
+            <form class="contact-form" id="contactForm"><label for="contactName">Your name</label><input id="contactName" name="name" autocomplete="name" required placeholder="Alex Morgan"><label for="contactEmail">Email address</label><input id="contactEmail" name="email" type="email" autocomplete="email" required placeholder="alex@example.com"><label for="contactMessage">How can we help?</label><textarea id="contactMessage" name="message" rows="4" required placeholder="Tell us a little about it..."></textarea><button class="button button-primary" type="submit">Send a message <i class="fa-solid fa-arrow-right"></i></button></form>
+        </section>
+    </main>
+</div>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

@@ -1,0 +1,32 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-projects" data-page-title="Projects">
+    <div class="page-heading"><div><span class="eyebrow">BIG PICTURE, CLEAR NEXT STEPS</span><h1>Projects</h1><p>See how the pieces of your work fit together.</p></div><button class="button button-primary" type="button" data-action="add-project"><i class="fa-solid fa-plus"></i> New project</button></div>
+    <% if (projectSuccess) { %><p class="profile-success" role="status"><%= projectSuccess %></p><% } %>
+    <div class="project-summary-strip"><span><i class="fa-solid fa-folder-open"></i> <b><%= projects.filter(project => project.status !== "Completed").length %></b> active projects</span><span><i class="fa-solid fa-list-check"></i> <b><%= projects.reduce((total, project) => total + project.taskCount, 0) %></b> tasks across projects</span></div>
+    <div class="project-grid" id="projectGrid">
+        <% if (projects.length) { %>
+            <% projects.forEach(function(project) { %>
+                <article class="project-card" data-project-id="<%= project.id %>">
+                    <div class="project-card-heading"><span class="project-color-mark"><i class="fa-solid fa-folder-open"></i></span><span class="project-status <%= project.status === 'Completed' ? 'status-completed' : project.status === 'Planning' ? 'status-pending' : 'status-progress' %>"><%= project.status %></span></div>
+                    <h2><%= project.name %></h2><p><%= project.description || "No project description." %></p>
+                    <div class="project-card-progress-label"><b>Progress</b><span><%= project.progress %>%</span></div>
+                    <div class="progress-track" role="progressbar" aria-label="Project progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= project.progress %>"><span style="width:<%= project.progress %>%"></span></div>
+                    <div class="project-card-footer"><span><i class="fa-solid fa-list-check"></i> <%= project.taskCount %> tasks - <%= project.completedTaskCount %> completed</span><span><i class="fa-regular fa-calendar"></i> <%= project.dueDate || "No due date" %></span></div>
+                    <div class="project-card-dates"><span>Starts <%= project.startDate || "Not set" %></span><span>Owner: <%= project.ownerName %></span></div>
+                    <div class="project-member-list"><b>Members</b><% if (project.members.length) { %><% project.members.forEach(function(member) { %><span class="project-member-chip" title="<%= member.email %>"><%= member.name %></span><% }); %><% } else { %><span class="project-member-chip">No additional members</span><% } %></div>
+                    <% if (project.canManage) { %>
+                        <div class="project-card-actions"><button class="button button-outline button-small" type="button" data-action="edit-project" data-project-id="<%= project.id %>"><i class="fa-solid fa-pen"></i> Edit</button><form action="/projects/<%= project.id %>/delete" method="post" data-confirm-delete="<%= project.name %>" data-delete-project><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><button class="button button-quiet button-small" type="submit"><i class="fa-regular fa-trash-can"></i> Delete</button></form></div>
+                    <% } %>
+                </article>
+            <% }); %>
+        <% } else { %>
+            <div class="project-empty-state"><i class="fa-solid fa-folder-plus"></i><h2>No projects yet</h2><p>Create a project to group related tasks and track team progress.</p><button class="button button-primary button-small" type="button" data-action="add-project"><i class="fa-solid fa-plus"></i> Create a project</button></div>
+        <% } %>
+    </div>
+</section>
+</main></div></div>
+<%- include("partials/project-modal") %>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

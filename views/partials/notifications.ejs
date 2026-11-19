@@ -1,0 +1,16 @@
+<% if (currentPage === "notifications") { %>
+    <section class="page-heading">
+        <div><span class="eyebrow">A LITTLE NUDGE, WHEN IT HELPS</span><h1>Notifications</h1><p>Updates and reminders for your workspace.</p></div>
+        <button class="button button-outline button-small" type="button" data-action="mark-notifications-read">Mark all as read</button>
+    </section>
+    <div class="panel notification-list" id="notificationList">
+        <% notifications.forEach(function(notification, index) { %>
+            <article class="notification-item <%= notification.unread ? 'unread' : '' %>">
+                <span class="notification-icon <%= notification.tone %>"><i class="fa-solid <%= notification.icon %>"></i></span>
+                <div class="notification-copy"><b><%= notification.title %></b><p><%= notification.description %></p><small><%= notification.time %></small></div>
+                <% if (notification.unread) { %><span class="notification-unread" aria-label="Unread"></span><% } %>
+            </article>
+        <% }); %>
+    </div>
+<% } %>
+<div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>

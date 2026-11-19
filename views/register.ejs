@@ -1,0 +1,12 @@
+<%- include("partials/header") %>
+<main class="auth-page">
+    <section class="dialog auth-dialog auth-page-card">
+        <div class="dialog-heading"><a class="brand" href="/"><span class="brand-mark"><i class="fa-solid fa-check"></i></span><span>TaskFlow</span></a><a class="icon-button" href="/" aria-label="Return to home"><i class="fa-solid fa-xmark"></i></a></div>
+        <div class="auth-intro"><h1>Make room for good work</h1><p>Create an account to get started with TaskFlow.</p></div>
+        <% if (authError) { %><p class="auth-error" role="alert"><%= authError %></p><% } %>
+        <form id="registerForm" class="auth-form" action="/auth/register" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><label for="registerName">Full name</label><input id="registerName" name="name" autocomplete="name" minlength="2" maxlength="80" required placeholder="Alex Morgan"><label for="registerEmail">Email address</label><input id="registerEmail" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"><label for="registerPassword">Password</label><input id="registerPassword" name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters"><label for="confirmRegisterPassword">Confirm password</label><input id="confirmRegisterPassword" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8" placeholder="Re-enter your password"><button class="button button-primary button-full" type="submit">Create account <i class="fa-solid fa-arrow-right"></i></button></form>
+        <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p><p class="auth-disclaimer"><i class="fa-solid fa-circle-info"></i> Passwords are hashed and never stored in plain text.</p>
+    </section>
+</main>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

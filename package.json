@@ -1,0 +1,23 @@
+{
+  "name": "taskflow-task-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TaskFlow task management app built with Express, EJS, and MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check app.js && node --check server.js && node --check config/env.js && node --check config/database.js && node --check config/auth.js && node --check controllers/pageController.js && node --check controllers/authController.js && node --check controllers/taskController.js && node --check controllers/projectController.js && node --check controllers/healthController.js && node --check controllers/companyController.js && node --check middleware/validateRequest.js && node --check middleware/authenticate.js && node --check middleware/authValidation.js && node --check middleware/authRateLimit.js && node --check middleware/csrfProtection.js && node --check middleware/notFound.js && node --check middleware/errorHandler.js && node --check models/User.js && node --check models/Task.js && node --check models/Project.js && node --check models/Company.js && node --check models/Team.js && node --check models/TeamMember.js && node --check models/Notification.js && node --check models/Activity.js && node --check routes/index.js && node --check routes/authRoutes.js && node --check routes/taskRoutes.js && node --check routes/projectRoutes.js && node --check routes/companyRoutes.js && node --check routes/pageRoutes.js && node --check routes/healthRoutes.js && node --check services/authService.js && node --check services/pageDataService.js && node --check services/taskService.js && node --check services/projectService.js && node --check services/companyService.js && node --check utils/AppError.js && node --check public/js/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5"
+  }
+}

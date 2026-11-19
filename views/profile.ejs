@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-profile" data-page-title="Profile">
+    <div class="page-heading"><div><span class="eyebrow">THE PERSON BEHIND THE WORK</span><h1>Your profile</h1><p>Manage your personal information and account details.</p></div></div>
+    <% if (authError) { %><p class="auth-error" role="alert"><%= authError %></p><% } %>
+    <% if (queryUpdated) { %><p class="profile-success" role="status">Profile information updated.</p><% } %>
+    <% if (passwordChanged) { %><p class="profile-success" role="status">Password changed. Your other sessions have been signed out.</p><% } %>
+    <div class="profile-layout">
+        <article class="panel profile-card"><div class="profile-banner"></div><div class="profile-identity"><span class="profile-avatar" id="profileAvatar"><%= user.initials %></span><h2 id="profileDisplayName"><%= user.name %></h2><p id="profileDisplayEmail"><%= user.email %></p><span class="account-badge"><i class="fa-solid fa-circle"></i> <%= user.role === "admin" ? "Administrator" : "Active account" %></span></div><div class="profile-account-info"><h3>Account information</h3><p><span>Account type</span><b><%= user.role === "admin" ? "Administrator" : "Personal workspace" %></b></p><p><span>Member since</span><b><%= new Date(user.createdAt).toLocaleDateString() %></b></p><p><span>Account status</span><b class="account-status"><i class="fa-solid fa-circle-check"></i> <%= user.isActive ? "Active" : "Inactive" %></b></p></div></article>
+        <div class="profile-forms">
+            <form class="panel settings-form" id="profileForm" action="/auth/profile" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><div class="panel-heading"><div><h2>Profile information</h2><p>Your name and email address.</p></div></div><label for="profileName">Full name</label><input id="profileName" name="name" autocomplete="name" minlength="2" maxlength="80" value="<%= user.name %>" required><label for="profileEmail">Email address</label><input id="profileEmail" name="email" type="email" autocomplete="email" maxlength="254" value="<%= user.email %>" required><div class="form-actions"><button class="button button-primary button-small" type="submit">Save changes</button></div></form>
+            <form class="panel settings-form" id="passwordForm" action="/auth/password" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><div class="panel-heading"><div><h2>Change password</h2><p>Confirm your current password before choosing a new one.</p></div></div><label for="currentPassword">Current password</label><input id="currentPassword" name="currentPassword" type="password" autocomplete="current-password" required><label for="newPassword">New password</label><input id="newPassword" name="newPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"><label for="confirmNewPassword">Confirm new password</label><input id="confirmNewPassword" name="confirmNewPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Re-enter your password"><div class="form-actions"><button class="button button-outline button-small" type="submit">Update password</button></div></form>
+        </div>
+    </div>
+</section>
+</main></div></div>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

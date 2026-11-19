@@ -1,0 +1,22 @@
+<div class="modal" id="taskModal" hidden>
+    <div class="modal-backdrop" data-action="close-modal" data-modal="taskModal"></div>
+    <section class="dialog task-dialog" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+        <div class="dialog-heading"><div><span class="eyebrow">KEEP THE NEXT STEP CLEAR</span><h2 id="taskModalTitle">Add a task</h2></div><button class="icon-button" type="button" data-action="close-modal" data-modal="taskModal" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button></div>
+        <form id="taskForm" action="/tasks" method="post">
+            <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+            <div class="task-form-grid">
+                <div class="form-field field-full"><label for="taskTitle">Task title <span>*</span></label><input id="taskTitle" name="title" required maxlength="120" placeholder="What needs to get done?"></div>
+                <div class="form-field field-full"><label for="taskDescription">Description</label><textarea id="taskDescription" name="description" rows="3" maxlength="2000" placeholder="Add a little more detail..."></textarea></div>
+                <div class="form-field"><label for="taskDueDate">Due date</label><input id="taskDueDate" name="dueDate" type="date"></div>
+                <div class="form-field"><label for="taskProject">Project</label><select id="taskProject" name="projectId"><option value="">No project</option><% projects.forEach(function(project) { %><option value="<%= project.id || project._id %>"><%= project.name %></option><% }); %></select></div>
+                <div class="form-field"><label for="taskCategory">Category</label><input id="taskCategory" name="category" maxlength="60" placeholder="e.g. Planning"></div>
+                <div class="form-field"><label for="taskAssignee">Assigned to</label><select id="taskAssignee" name="assignedTo"><option value="">Unassigned</option><% if (typeof assignees !== "undefined") { assignees.forEach(function(assignee) { %><option value="<%= assignee.id || assignee._id %>"><%= assignee.name %></option><% }); } %></select></div>
+                <div class="form-field"><label for="taskPriority">Priority</label><select id="taskPriority" name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="critical">Critical</option></select></div>
+                <div class="form-field"><label for="taskStatus">Status</label><select id="taskStatus" name="status"><option value="pending">Pending</option><option value="progress">In progress</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+                <div class="form-field field-full"><label for="taskTags">Tags <small>Separate with commas</small></label><input id="taskTags" name="tags" maxlength="820" placeholder="e.g. planning, sprint"></div>
+            </div>
+            <div class="task-preview" id="taskPreview" hidden aria-live="polite"></div>
+            <div class="dialog-actions"><button class="button button-outline button-small" type="button" data-action="preview-task"><i class="fa-regular fa-eye"></i> Preview</button><button class="button button-quiet" type="button" data-action="close-modal" data-modal="taskModal">Cancel</button><button class="button button-primary" type="submit"><i class="fa-solid fa-check"></i> <span id="taskSubmitLabel">Create task</span></button></div>
+        </form>
+    </section>
+</div>

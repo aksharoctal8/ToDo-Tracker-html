@@ -1,0 +1,40 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-company-members" data-page-title="Company members">
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">COMPANY MEMBERS</span>
+            <h1>Membership overview</h1>
+            <p>See the people connected to this company, their roles, and team assignments.</p>
+        </div>
+        <a class="button button-primary" href="/teams"><i class="fa-solid fa-user-plus"></i> Add member</a>
+    </div>
+
+    <article class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Members</h2>
+                <p>All members associated with the company</p>
+            </div>
+        </div>
+        <div class="list-stack">
+            <% if (!members || !members.length) { %>
+                <div class="empty-state compact-empty">
+                    <i class="fa-solid fa-user-group"></i>
+                    <p>No company members found.</p>
+                </div>
+            <% } else { %>
+                <% members.forEach(function(member) { %>
+                    <div class="list-row">
+                        <div>
+                            <b><%= member.user ? member.user.name : "Unassigned" %></b>
+                            <small><%= member.user ? member.user.email : "" %></small>
+                        </div>
+                        <span class="status-badge status-active"><%= member.role %></span>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </article>
+</section>
+<%- include("partials/footer") %>

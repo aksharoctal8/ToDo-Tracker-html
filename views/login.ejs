@@ -1,0 +1,13 @@
+<%- include("partials/header") %>
+<main class="auth-page">
+    <section class="dialog auth-dialog auth-page-card">
+        <div class="dialog-heading"><a class="brand" href="/"><span class="brand-mark"><i class="fa-solid fa-check"></i></span><span>TaskFlow</span></a><a class="icon-button" href="/" aria-label="Return to home"><i class="fa-solid fa-xmark"></i></a></div>
+        <div class="auth-intro"><h1>Welcome back</h1><p>Sign in to get back to your workspace.</p></div>
+        <% if (sessionExpired) { %><p class="auth-error" role="alert">Your session expired. Please sign in again.</p><% } %>
+        <% if (authError) { %><p class="auth-error" role="alert"><%= authError %></p><% } %>
+        <form id="loginForm" class="auth-form" action="/auth/login" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><label for="loginEmail">Email address</label><input id="loginEmail" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"><label for="loginPassword">Password</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"><button class="button button-primary button-full" type="submit">Continue <i class="fa-solid fa-arrow-right"></i></button></form>
+        <p class="auth-switch">New to TaskFlow? <a href="/register">Create an account</a></p><p class="auth-disclaimer"><i class="fa-solid fa-circle-info"></i> Your password is securely hashed before storage.</p>
+    </section>
+</main>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-task-detail" data-page-title="Task details">
+    <div class="page-heading"><div><span class="eyebrow">TASK DETAILS</span><h1><%= task.title %></h1><p>Review the details and update the next step.</p></div><div class="task-card-actions"><a class="button button-outline button-small" href="/tasks"><i class="fa-solid fa-arrow-left"></i> Back to tasks</a><button class="button button-primary" type="button" data-action="edit-task" data-task-id="<%= task.id %>"><i class="fa-solid fa-pen"></i> Edit task</button></div></div>
+    <article class="panel task-detail-panel">
+        <div class="task-card-side"><span class="status-badge <%= task.overdue ? 'status-overdue' : `status-${task.status}` %>"><%= task.overdue ? "Overdue" : task.status === "progress" ? "In progress" : task.status[0].toUpperCase() + task.status.slice(1) %></span><span class="priority-badge priority-<%= task.priority %>"><%= task.priority %> priority</span></div>
+        <% if (task.description) { %><p><%= task.description %></p><% } %>
+        <div class="task-card-meta"><span class="<%= task.overdue ? 'is-overdue' : '' %>"><i class="fa-regular fa-calendar"></i> <%= task.dueDate || "No due date" %></span><% if (task.projectName) { %><span><i class="fa-regular fa-folder"></i> <%= task.projectName %></span><% } %><% if (task.category) { %><span><i class="fa-solid fa-tag"></i> <%= task.category %></span><% } %><% if (task.assignTo) { %><span><i class="fa-regular fa-user"></i> <%= task.assignTo %></span><% } else { %><span>Unassigned</span><% } %><% task.tags.forEach(function(tag) { %><span><i class="fa-solid fa-hashtag"></i> <%= tag %></span><% }); %></div>
+        <div class="dialog-actions">
+            <form action="/tasks/<%= task.id %>/status" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><input type="hidden" name="status" value="<%= task.status === 'completed' ? 'pending' : 'completed' %>"><button class="button button-outline button-small" type="submit"><%= task.status === "completed" ? "Reopen task" : "Mark complete" %></button></form>
+            <% if (canDelete) { %><form action="/tasks/<%= task.id %>/delete" method="post" data-confirm-delete="<%= task.title %>"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><button class="button button-quiet button-small" type="submit"><i class="fa-regular fa-trash-can"></i> Delete</button></form><% } %>
+        </div>
+        <p class="task-detail-meta">Created <%= new Date(task.createdAt).toLocaleString() %><% if (task.updatedAt) { %> · Updated <%= new Date(task.updatedAt).toLocaleString() %><% } %></p>
+    </article>
+</section>
+</main></div></div>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>

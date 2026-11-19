@@ -1,0 +1,39 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-analytics" data-page-title="Analytics">
+    <div class="page-heading"><div><span class="eyebrow">A MOMENT TO REFLECT</span><h1>Analytics</h1><p>Understand your progress and make room for what's next.</p></div><span class="date-range-label"><i class="fa-regular fa-calendar"></i> Last 7 days</span></div>
+    <div class="analytics-kpis">
+        <article class="panel analytics-kpi"><span>Completion rate</span><strong><%= stats.completionRate %>%</strong><small><%= stats.completed %> completed of <%= stats.total %> tasks</small><div class="mini-track"><span style="width:<%= stats.completionRate %>%"></span></div></article>
+        <article class="panel analytics-kpi"><span>Open tasks</span><strong><%= stats.total - stats.completed - stats.cancelled %></strong><small><%= stats.pending %> pending, <%= stats.inProgress %> in progress</small><div class="mini-track track-cyan"><span style="width:<%= stats.total ? Math.round((stats.total - stats.completed - stats.cancelled) / stats.total * 100) : 0 %>%"></span></div></article>
+        <article class="panel analytics-kpi"><span>Overdue tasks</span><strong><%= stats.overdue %></strong><small><%= stats.total ? Math.round(stats.overdue / stats.total * 100) : 0 %>% of your visible tasks</small><div class="mini-track track-rose"><span style="width:<%= stats.total ? Math.round(stats.overdue / stats.total * 100) : 0 %>%"></span></div></article>
+    </div>
+    <div class="analytics-grid">
+        <article class="panel weekly-panel"><div class="panel-heading"><div><h2>Weekly productivity</h2><p><%= weeklyCompletion.reduce((total, day) => total + day.completed, 0) %> tasks completed in the last 7 days.</p></div><span class="panel-menu-label">Last 7 days</span></div><div class="weekly-chart" id="weeklyChart" role="img" aria-label="Weekly task completion chart">
+            <% const maxCompleted = Math.max(1, ...weeklyCompletion.map(day => day.completed)); weeklyCompletion.forEach(function(day, index) { const height = Math.max(day.completed ? 9 : 2, day.completed / maxCompleted * 100); %>
+                <div class="chart-day"><div class="chart-bar-wrap"><span class="chart-bar <%= index === 6 ? 'today' : '' %>" style="height:<%= height %>%" title="<%= day.completed %> completed"></span></div><small><%= day.label %></small></div>
+            <% }); %>
+        </div></article>
+        <article class="panel analytics-productivity"><div class="panel-heading"><div><h2>Status distribution</h2><p>Your tasks, grouped by current status.</p></div></div><div class="breakdown-list">
+            <% taskAnalytics.statuses.forEach(function(row) { %>
+                <div class="breakdown-row"><div><span><%= row.label %></span><b><%= row.count %> (<%= row.percentage %>%)</b></div><div class="progress-track"><span class="<%= row.className %>" style="width:<%= row.percentage %>%"></span></div></div>
+            <% }); %>
+        </div></article>
+        <article class="panel analytics-priorities"><div class="panel-heading"><div><h2>Priority distribution</h2><p>How your task workload is prioritized.</p></div></div><div class="breakdown-list">
+            <% taskAnalytics.priorities.forEach(function(row) { %>
+                <div class="breakdown-row"><div><span><%= row.label %></span><b><%= row.count %> (<%= row.percentage %>%)</b></div><div class="progress-track"><span class="<%= row.className %>" style="width:<%= row.percentage %>%"></span></div></div>
+            <% }); %>
+        </div></article>
+        <article class="panel analytics-overdue"><div class="panel-heading"><div><h2>Overdue task statistics</h2><p>Unfinished tasks past their due date, by priority.</p></div><span class="panel-menu-label"><%= stats.overdue %> total</span></div><div class="breakdown-list">
+            <% taskAnalytics.overdueByPriority.forEach(function(row) { const percentage = stats.overdue ? Math.round(row.count / stats.overdue * 100) : 0; %>
+                <div class="breakdown-row"><div><span><%= row.label %></span><b><%= row.count %> (<%= percentage %>%)</b></div><div class="progress-track"><span class="<%= row.className %>" style="width:<%= percentage %>%"></span></div></div>
+            <% }); %>
+        </div></article>
+        <article class="panel analytics-projects"><div class="panel-heading"><div><h2>Project progress</h2><p>Completion across your projects.</p></div><a class="text-button" href="/projects">View projects <i class="fa-solid fa-arrow-right"></i></a></div><div id="analyticsProjectProgress">
+            <% if (projects.length) { projects.forEach(function(project) { %><div class="project-progress-item"><div class="project-progress-top"><span class="project-name-wrap"><span class="project-color-mark"><i class="fa-solid fa-folder-open"></i></span><b><%= project.name %></b></span><span><%= project.progress %>%</span></div><div class="progress-track" role="progressbar" aria-label="<%= project.name %> completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= project.progress %>"><span style="width:<%= project.progress %>%"></span></div><div class="project-progress-meta"><span><%= project.completedTaskCount %> of <%= project.taskCount %> tasks complete</span><span>Due <%= project.dueDate || "No due date" %></span></div></div><% }); } else { %><div class="task-empty-state"><i class="fa-solid fa-folder-open"></i><h3>No project data yet</h3><p>Projects you own or belong to will appear here.</p></div><% } %>
+        </div></article>
+    </div>
+</section>
+</main></div></div>
+<%- include("partials/task-modal") %>
+<%- include("partials/notifications") %>
+<%- include("partials/footer") %>
