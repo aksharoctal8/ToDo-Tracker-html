@@ -1,0 +1,89 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-team-detail" data-page-title="Team details">
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">TEAM DETAILS</span>
+            <h1><%= team.name %></h1>
+            <p><%= team.description || "Team overview and assigned members." %></p>
+        </div>
+        <a class="button button-quiet" href="/teams"><i class="fa-solid fa-arrow-left"></i> Back to teams</a>
+    </div>
+
+    <% if (submissionError) { %>
+        <div class="error-banner"><i class="fa-solid fa-circle-exclamation"></i> <%= submissionError %></div>
+    <% } %>
+
+    <% if (successMessage) { %>
+        <div class="success-banner"><i class="fa-solid fa-circle-check"></i> <%= successMessage %></div>
+    <% } %>
+
+    <div class="dashboard-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Team summary</h2>
+                    <p>Leadership and assignments</p>
+                </div>
+            </div>
+            <dl class="summary-list">
+                <div><dt>Team leader</dt><dd><%= team.leader ? team.leader.name : "Unassigned" %></dd></div>
+                <div><dt>Company</dt><dd><%= company ? company.name : "N/A" %></dd></div>
+                <div><dt>Status</dt><dd><%= team.status %></dd></div>
+            </dl>
+        </article>
+
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Add team member</h2>
+                    <p>Invite a user by email to join this team.</p>
+                </div>
+            </div>
+            <form class="stack-form" method="post" action="/teams/<%= team._id %>/members">
+                <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+                <div class="form-grid">
+                    <label class="field field-wide"><span>User email</span><input type="email" name="email" placeholder="team.member@example.com" required></label>
+                    <label class="field field-wide"><span>Role</span>
+                        <select name="role">
+                            <option value="Team Member">Team Member</option>
+                            <option value="Team Leader">Team Leader</option>
+                            <option value="Company Admin">Company Admin</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="button-row">
+                    <button class="button button-primary" type="submit">Add member</button>
+                </div>
+            </form>
+        </article>
+    </div>
+
+    <article class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Team members</h2>
+                <p>Current members and assigned roles</p>
+            </div>
+        </div>
+        <div class="list-stack">
+            <% if (!members || !members.length) { %>
+                <div class="empty-state compact-empty">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <p>No members added yet.</p>
+                </div>
+            <% } else { %>
+                <% members.forEach(function(member) { %>
+                    <div class="list-row">
+                        <div>
+                            <b><%= member.user ? member.user.name : "Unknown user" %></b>
+                            <small><%= member.user ? member.user.email : "" %></small>
+                        </div>
+                        <span class="status-badge status-active"><%= member.role %></span>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </article>
+</section>
+<%- include("partials/footer") %>

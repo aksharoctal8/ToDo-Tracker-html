@@ -1,0 +1,25 @@
+<header class="site-header">
+    <a class="brand" href="/" aria-label="TaskFlow home">
+        <span class="brand-mark"><i class="fa-solid fa-check"></i></span>
+        <span>TaskFlow</span>
+    </a>
+    <button class="icon-button site-menu-toggle" type="button" data-action="toggle-public-menu"
+        aria-label="Toggle navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="/#features">Features</a>
+        <a href="/#services">Services</a>
+        <a href="/#themes">Themes</a>
+        <a href="/#contact">Contact</a>
+    </nav>
+    <div class="site-actions">
+        <% if (currentUser) { %>
+            <a class="button button-quiet" href="/dashboard">Go to workspace</a>
+            <form action="/auth/logout" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><button class="button button-primary" type="submit">Log out</button></form>
+        <% } else { %>
+            <a class="button button-quiet" href="/login">Log in</a>
+            <a class="button button-primary" href="/register">Get started <i class="fa-solid fa-arrow-right"></i></a>
+        <% } %>
+    </div>
+</header>

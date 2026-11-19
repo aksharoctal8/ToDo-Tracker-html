@@ -1,0 +1,32 @@
+<div class="app-shell">
+    <aside class="app-sidebar" id="appSidebar">
+        <a class="brand sidebar-brand" href="/dashboard"><span class="brand-mark"><i class="fa-solid fa-check"></i></span><span>TaskFlow</span></a>
+        <div class="workspace-switcher"><span class="workspace-avatar"><%= user.initials %></span><span><b><%= user.workspaceName %></b><small>Personal workspace</small></span><i class="fa-solid fa-chevron-down"></i></div>
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav class="app-nav" aria-label="Workspace navigation">
+            <a class="app-nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>" href="/dashboard"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+            <a class="app-nav-link <%= currentPage === 'tasks' ? 'active' : '' %>" href="/tasks"><i class="fa-solid fa-list-check"></i><span>My Tasks</span><span class="nav-count" id="sidebarTaskCount"><%= stats.total %></span></a>
+            <a class="app-nav-link <%= currentPage === 'projects' ? 'active' : '' %>" href="/projects"><i class="fa-solid fa-folder"></i><span>Projects</span></a>
+            <a class="app-nav-link <%= currentPage === 'company' ? 'active' : '' %>" href="/company"><i class="fa-solid fa-building"></i><span>Company</span></a>
+            <a class="app-nav-link <%= currentPage === 'company' ? 'active' : '' %>" href="/teams"><i class="fa-solid fa-users"></i><span>Teams</span></a>
+            <a class="app-nav-link <%= currentPage === 'analytics' ? 'active' : '' %>" href="/analytics"><i class="fa-solid fa-chart-simple"></i><span>Analytics</span></a>
+            <a class="app-nav-link <%= currentPage === 'notifications' ? 'active' : '' %>" href="/notifications"><i class="fa-regular fa-bell"></i><span>Notifications</span><span class="notification-dot" id="notificationDot" <%= unreadNotificationCount ? '' : 'hidden' %>></span></a>
+        </nav>
+        <div class="sidebar-label sidebar-label-bottom">PERSONAL</div>
+        <nav class="app-nav" aria-label="Personal navigation">
+            <a class="app-nav-link <%= currentPage === 'profile' ? 'active' : '' %>" href="/profile"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+            <a class="app-nav-link <%= currentPage === 'settings' ? 'active' : '' %>" href="/settings"><i class="fa-solid fa-sliders"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-help"><span class="help-icon"><i class="fa-regular fa-life-ring"></i></span><b>Need a hand?</b><small>Your tasks are saved to your workspace.</small><button type="button" data-action="show-demo-note">About your workspace <i class="fa-solid fa-arrow-right"></i></button></div>
+        <a class="sidebar-user" href="/profile"><span class="avatar" id="sidebarAvatar"><%= user.initials %></span><span><b id="sidebarUserName"><%= user.name %></b><small>Workspace account</small></span><i class="fa-solid fa-ellipsis"></i></a>
+        <form class="sidebar-logout-form" action="/auth/logout" method="post"><input type="hidden" name="csrfToken" value="<%= csrfToken %>"><button class="sidebar-logout" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button></form>
+    </aside>
+    <div class="sidebar-backdrop" data-action="close-sidebar" aria-hidden="true"></div>
+    <div class="app-main">
+        <header class="app-topbar">
+            <button class="icon-button app-menu-toggle" type="button" data-action="toggle-sidebar" aria-label="Open workspace navigation" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+            <div class="breadcrumb"><a href="/dashboard">Workspace</a><i class="fa-solid fa-chevron-right"></i><b><%= currentPage === "tasks" ? "My Tasks" : `${currentPage[0].toUpperCase()}${currentPage.slice(1)}` %></b></div>
+            <div class="topbar-actions"><span class="demo-pill"><i class="fa-solid fa-circle"></i> Live workspace</span><a class="icon-button topbar-notifications" href="/notifications" aria-label="Notifications"><i class="fa-regular fa-bell"></i><span class="notification-dot" <%= unreadNotificationCount ? '' : 'hidden' %>></span></a><a class="topbar-profile" href="/profile"><span class="avatar avatar-small" id="topbarAvatar"><%= user.initials %></span><span id="topbarUserName"><%= user.name %></span><i class="fa-solid fa-chevron-down"></i></a></div>
+        </header>
+        <main class="workspace-content">

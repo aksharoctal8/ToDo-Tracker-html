@@ -1,0 +1,60 @@
+<%- include("partials/header") %>
+<%- include("partials/sidebar") %>
+<section class="app-view active" id="view-company-register" data-page-title="Company registration">
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">ORGANIZE YOUR WORK</span>
+            <h1>Register your company</h1>
+            <p>Create a company workspace and start managing teams, projects, and tasks together.</p>
+        </div>
+    </div>
+
+    <div class="two-column-layout">
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Company details</h2>
+                    <p>Use your company identity to organize projects and tasks.</p>
+                </div>
+            </div>
+            <form class="stack-form" method="post" action="/company/register">
+                <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+
+                <div class="form-grid">
+                    <label class="field"><span>Company name</span><input type="text" name="name" placeholder="Acme Studio" required></label>
+                    <label class="field"><span>Company email</span><input type="email" name="email" placeholder="hello@acme.com" required></label>
+                    <label class="field"><span>Phone</span><input type="tel" name="phone" placeholder="+91 98765 43210"></label>
+                    <label class="field"><span>Website</span><input type="url" name="website" placeholder="https://acme.com"></label>
+                    <label class="field field-wide"><span>Address</span><input type="text" name="address" placeholder="Business district, city, country"></label>
+                    <label class="field field-wide"><span>Description</span><textarea name="description" rows="4" placeholder="Describe your organization, business focus, and team structure."></textarea></label>
+                    <label class="field field-wide"><span>Logo URL</span><input type="url" name="logo" placeholder="https://example.com/logo.png"></label>
+                </div>
+
+                <% if (submissionError) { %>
+                    <div class="error-banner"><i class="fa-solid fa-circle-exclamation"></i> <%= submissionError %></div>
+                <% } %>
+
+                <div class="button-row">
+                    <button class="button button-primary" type="submit">Create company</button>
+                    <a class="button button-quiet" href="/dashboard">Back to dashboard</a>
+                </div>
+            </form>
+        </article>
+
+        <article class="panel panel-tall">
+            <div class="panel-heading">
+                <div>
+                    <h2>Company structure</h2>
+                    <p>Built for professional task management.</p>
+                </div>
+            </div>
+            <ul class="feature-list">
+                <li><i class="fa-solid fa-building"></i><div><strong>Company workspace</strong><small>One home for your organization and teams.</small></div></li>
+                <li><i class="fa-solid fa-users"></i><div><strong>Team management</strong><small>Split work into development, design, marketing, and more.</small></div></li>
+                <li><i class="fa-solid fa-list-check"></i><div><strong>Task assignment</strong><small>Assign work to the right team members with clear ownership.</small></div></li>
+                <li><i class="fa-solid fa-chart-simple"></i><div><strong>Progress visibility</strong><small>Track company-wide metrics and team performance.</small></div></li>
+            </ul>
+        </article>
+    </div>
+</section>
+<%- include("partials/footer") %>
